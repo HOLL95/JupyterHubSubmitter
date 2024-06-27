@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: Generic Job Submission
+spec:
+  template:
+    spec:
+      containers:
+      - args:
+        - 'python rse-kube-pytorch-mnist/train.py  '
+        - mv mnist_cnn.pt /output
+        command:
+        - /bin/bash
+        - -c
+        image: gitlab-registry.nrp-nautilus.io/zihaozhou/nautilus_tutorial:jupyterhub
+        name: gpu-container
+        resources:
+          limits:
+            cpu: '4'
+            memory: 8G
+            nvidia.com/gpu: '1'
+          requests:
+            cpu: '4'
+            memory: 8G
+            nvidia.com/gpu: '1'
+        volumeMounts:
+        - mountPath: /output
+          name: mnist-test-volume
+      restartPolicy: Never
+      volumes:
+      - name: mnist-test-volume
+        persistentVolumeClaim:
+          claimName: mnist-test-volume

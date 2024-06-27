@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rsekube-train-mnist-job
+spec:
+  template:
+    spec:
+      containers:
+      - args:
+        - ''
+        command:
+        - /bin/bash
+        - -c
+        image: gitlab-registry.nrp-nautilus.io/zihaozhou/nautilus_tutorial:jupyterhub
+        name: gpu-container
+        resources:
+          limits:
+            cpu: '4'
+            memory: 8G
+            nvidia.com/gpu: '1'
+          requests:
+            cpu: '4'
+            memory: 8G
+            nvidia.com/gpu: '1'
+        volumeMounts:
+        - mountPath: /output
+          name: mnist-test-volume
+      restartPolicy: Never
+      volumes:
+      - name: mnist-test-volume
+        persistentVolumeClaim:
+          claimName: mnist-test-volume
