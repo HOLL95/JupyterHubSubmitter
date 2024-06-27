@@ -2,10 +2,10 @@
 
 Recommended practice is to use a venv
 ```
-python3 -m venv vevn
+python3 -m venv venv
 ```
 ```
-source env/bin/activate
+source venv/bin/activate
 ```
 Then, after cloning this repository, navigate into the ```JupyterHubSubmitter``` folder and run
 ```
